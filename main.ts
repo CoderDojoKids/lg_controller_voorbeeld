@@ -1,8 +1,8 @@
 let Rechts = 0
 let Links = 0
-let max_links = 0
 let max_rechts = 0
-let Bak = 0
+let max_links = 0
+let Shovel = 0
 let Gas = 0
 let Stuur = 0
 radio.setGroup(7)
@@ -10,23 +10,23 @@ basic.forever(function () {
     Stuur = Math.constrain(input.rotation(Rotation.Roll), -45, 45)
     Gas = Math.constrain(input.rotation(Rotation.Pitch), -45, 45)
     if (input.buttonIsPressed(Button.A)) {
-        Bak += 1
+        Shovel += 1
     } else if (input.buttonIsPressed(Button.B)) {
-        Bak += -1
+        Shovel += -1
     }
-    Bak = Math.constrain(Bak, 0, 110)
+    Shovel = Math.constrain(Shovel, 0, 110)
     if (Stuur >= 0) {
-        max_rechts = 255
-        max_links = Math.map(Stuur, 0, 45, 255, -255)
-    } else {
         max_links = 255
-        max_rechts = Math.map(Stuur, 0, -45, 255, -255)
+        max_rechts = Math.map(Stuur, 0, 45, 255, -255)
+    } else {
+        max_links = Math.map(Stuur, 0, -45, 255, -255)
+        max_rechts = 255
     }
     Links = Math.map(Gas, -45, 45, max_links, max_links * -1)
     Rechts = Math.map(Gas, -45, 45, max_rechts, max_rechts * -1)
     radio.sendValue("links", Links)
     radio.sendValue("rechts", Rechts)
-    radio.sendValue("bak", Bak)
+    radio.sendValue("shovel", Shovel)
     basic.pause(10)
 })
 control.inBackground(function () {
